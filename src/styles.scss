@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$recipe-puppy-yellow: #f1b51f;
+$recipe-puppy-blue: #2098D1;
+$recipe-puppy-light-blue: #edf5f9;
+$recipe-puppy-light-grey: #666;
+$recipe-puppy-dark-grey: #282828;
+$recipe-puppy-white: #ffffff;
+
+$font-size-xl: 50px;
+$font-size-l: 30px;
+$font-size-m: 20px;
+$font-size-s: 16px;
+$font-size-xs: 14px;
+
+h1 {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $recipe-puppy-dark-grey;
+}
+
+h2 {
+  font-size: $font-size-l;
+  font-weight: 600;
+  color: $recipe-puppy-light-grey;
+}
+
+p {
+  font-size: $font-size-s;
+  color: $recipe-puppy-light-grey;
+}
+
+button {
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+

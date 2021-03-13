@@ -1,0 +1,135 @@
+@import "../../../styles.scss";
+
+.navbar-wrapper {
+    background-color: $recipe-puppy-light-blue;
+    border-bottom: solid 5px $recipe-puppy-yellow;
+
+    .navbar {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .recipe-title-wrapper {
+    
+        h2 {
+            margin-top: 30px;
+        }
+    }
+}
+
+input {
+    font-size: $font-size-m;
+    color: $recipe-puppy-dark-grey;
+    padding: 5px 15px;
+    border: solid 2px $recipe-puppy-yellow;
+
+    &:focus {
+        border: solid 2px $recipe-puppy-blue;
+    }
+}
+
+.section-wrap {
+    border-bottom: solid 5px $recipe-puppy-yellow;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .ingredient-input {
+        width: 50%;
+    }
+
+    .ingredient-add {
+        margin-left: 5px;
+        border: solid 2px $recipe-puppy-yellow;;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 3px;
+        padding-bottom: 8px;
+        background-color: $recipe-puppy-yellow;
+
+        span {
+            position: relative;
+            top: 5px;
+        }
+    }
+}
+
+.tags {
+    .tag {
+        color: $recipe-puppy-dark-grey;
+        background-color: $recipe-puppy-white;
+        border: solid 2px $recipe-puppy-yellow;
+        padding: 2px 8px;
+        margin-right: 10px;
+        margin-top: 10px;
+        font-size: $font-size-xs;
+        cursor: pointer;
+
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            background-color: $recipe-puppy-yellow;
+            color: $recipe-puppy-white;
+        }
+    }
+
+    .tag-active {
+        background-color: $recipe-puppy-yellow;
+        color: $recipe-puppy-white;
+    }
+
+}
+
+.active-tags-wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .tag-active {
+        padding: 8px 0px 8px 15px;
+    }
+
+    .delete {
+        border: none;
+        position: relative;
+        top: 5px;
+        right: 0px;
+        background-color: white;
+        padding: 3px;
+        margin-left: 5px;
+        line-height: 1;
+    }
+}
+
+.recipes-wrapper {
+    margin-top: 30px;
+}
+
+.no-results {
+    border-bottom: solid 5px $recipe-puppy-yellow;
+    border-top: solid 5px $recipe-puppy-yellow;
+    padding-top: 20px;
+}
+
+.single-recipe-wrap {
+    margin-bottom: 30px;
+    background-color: $recipe-puppy-light-blue;
+    padding: 15px;
+    width: 100%;
+
+    .recipe-img-wrap {
+        height: 80px;
+        width: 80px;
+        background-color: $recipe-puppy-light-grey;
+    }
+
+    a {
+        display: block;
+        font-size: $font-size-m;
+        margin-top: 15px;
+        color: $recipe-puppy-blue;
+        font-weight: 500;
+
+        &:hover {
+            color: $recipe-puppy-yellow;
+            transition: all 0.2s ease-in;
+        }
+    }
+}

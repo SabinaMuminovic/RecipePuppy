@@ -1,0 +1,100 @@
+<section class="navbar-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="navbar" role="navigation">
+          <div class="recipe-title-wrapper">
+            <h1>RecipePuppy</h1>
+          </div>
+          <div class="navbar-search">
+            <input class="input" type="text" [(ngModel)]="searchForKeyword"
+              (ngModelChange)="searchKeywordModelChanged($event)" name="searchForKeyword"
+              placeholder="Search recipes...">
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>To see some random recipes - keep scrolling...</h2>
+        <p>To search for specific recipe, use search field <strong>"Search recipes"</strong> placed in top right of a
+          header. If you would rather search
+          recipes by ingredients, click on any ingredient in recipes you can see below!</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>You would rather try to search through RecipePuppy recipes immediately by ingredients directly, not by
+          titles?</h2>
+        <p><strong>No problem!</strong> Start adding your ingredients one by one in input field below!</p>
+        <input class="input ingredient-input" type="text" [(ngModel)]="searchForIngredientBlank" name="searchForIngredientBlank"
+          placeholder="Add any ingredient to a filter list...">
+        <button class="ingredient-add" (click)="updateIngredient(searchForIngredientBlank)">
+          <span class="material-icons">
+            add
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="no-results" *ngIf="recipes.length === 0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>There are no results for the recipes You have tried to search.</h2>
+        <p>Try to type in the <strong>searchbox</strong> (placed
+          in top right of the header) the keyword of the recipe you want to search. After this search is completed, You
+          can also
+          press on any of their <strong>ingredients</strong> to filter given recipes with Your
+          keyword and ingredients.</p>
+        <p>When You reach bottom of the page, more recipes (if there are any with Your
+          requirements) will keep loading.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="active-tags-wrapper" *ngIf="searchForIngredients.length > 0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="tags">
+          <span *ngFor="let ingredient of searchForIngredients" class="tag tag-active">{{ ingredient }}
+            <button class="delete" (click)="removeIngredient(ingredient)">
+              <span class="material-icons">
+                close</span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="recipes-wrapper">
+  <div class="container">
+    <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+      <div class="row">
+        <div class="col-lg-6" *ngFor="let r of recipes">
+          <div class="single-recipe-wrap">
+            <div class="recipe-img-wrap">
+              <img [src]="r.thumbnail" *ngIf="r.thumbnail" class="recipe-image">
+            </div>
+            <a [href]="r.href" target="_blank">{{ r.title }}</a>
+            <div class="tags">
+              <button [ngClass]="getIngredientClass(ingredient)" *ngFor="let ingredient of r.ingredients "
+                (click)="updateIngredient(ingredient) ">{{ ingredient }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
