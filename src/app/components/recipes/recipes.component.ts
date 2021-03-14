@@ -4,11 +4,12 @@ import { ApiService } from '@core/services/api/api.service';
 import { LocalStorageService } from '@core/services/local-storage/local-storage.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.scss']
+  styleUrls: ['./recipes.component.scss'],
 })
 export class RecipesComponent implements OnInit {
   error: string = '';
@@ -25,19 +26,48 @@ export class RecipesComponent implements OnInit {
   scrollPosition: number = 0;
   currentLocalStoragescrollPosition: string | null = '';
 
-  constructor(private apiService: ApiService, private localStorageService: LocalStorageService) { }
+  constructor(
+    private apiService: ApiService,
+    private localStorageService: LocalStorageService
+  ) {}
+
+  // listen to scroll position, so when use gets back to a page, he/she can be placed on a same position where he/she was earlier
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
+    this.scrollPosition = window.scrollY;
+    this.localStorageService.setItem(
+      'scrollPosition',
+      JSON.stringify(this.scrollPosition)
+    );
+  }
 
   getRecipes() {
-    this.apiService.getRecipesData(this.searchForKeyword, this.searchForIngredients, this.page)
-      .subscribe(data => {
-        this.recipes = this.recipes.concat(data);
-        this.localStorageService.setItem('recipes', JSON.stringify(this.recipes));
-        this.localStorageService.setItem('searchForKeyword', JSON.stringify(this.searchForKeyword));
-        this.localStorageService.setItem('searchForIngredients', JSON.stringify(this.searchForIngredients));
-      },
-        error => {
-          this.error = 'Something went wrong with getting recipes from RecipePuppy!';
-        });
+    this.apiService
+      .getRecipesData(
+        this.searchForKeyword,
+        this.searchForIngredients,
+        this.page
+      )
+      .subscribe(
+        (data) => {
+          this.recipes = this.recipes.concat(data);
+          this.localStorageService.setItem(
+            'recipes',
+            JSON.stringify(this.recipes)
+          );
+          this.localStorageService.setItem(
+            'searchForKeyword',
+            JSON.stringify(this.searchForKeyword)
+          );
+          this.localStorageService.setItem(
+            'searchForIngredients',
+            JSON.stringify(this.searchForIngredients)
+          );
+        },
+        (error) => {
+          this.error =
+            'Something went wrong with getting recipes from RecipePuppy!';
+        }
+      );
   }
 
   clearRecipesArray() {
@@ -54,8 +84,6 @@ export class RecipesComponent implements OnInit {
   onScroll() {
     this.page++;
     this.localStorageService.setItem('page', JSON.stringify(this.page));
-    this.scrollPosition = window.scrollY;
-    this.localStorageService.setItem('scrollPosition', JSON.stringify(this.scrollPosition));
     this.getRecipes();
   }
 
@@ -64,7 +92,7 @@ export class RecipesComponent implements OnInit {
     if (this.searchKeywordModel.observers.length === 0) {
       this.searchKeywordModel
         .pipe(debounceTime(1000), distinctUntilChanged())
-        .subscribe(endDebounceKeyword => {
+        .subscribe((endDebounceKeyword) => {
           this.searchForKeyword = endDebounceKeyword;
           this.clearRecipesArray();
         });
@@ -79,6 +107,8 @@ export class RecipesComponent implements OnInit {
     } else {
       this.removeIngredient(ingredient);
     }
+    // after adding ingredients one by one - cleaning model
+    this.searchForIngredientBlank = '';
   }
 
   // Add ingredient to filters
@@ -91,7 +121,10 @@ export class RecipesComponent implements OnInit {
 
   // Remove ingredient from filters
   removeIngredient(ingredient: string) {
-    this.searchForIngredients.splice(this.searchForIngredients.indexOf(ingredient), 1);
+    this.searchForIngredients.splice(
+      this.searchForIngredients.indexOf(ingredient),
+      1
+    );
     this.clearRecipesArray();
   }
 
@@ -106,42 +139,78 @@ export class RecipesComponent implements OnInit {
   }
 
   checkLocalStorageRecipes(): string | null {
-    this.currentLocalStorageRecipes = this.localStorageService.getItem('recipes');
+    this.currentLocalStorageRecipes = this.localStorageService.getItem(
+      'recipes'
+    );
     return this.currentLocalStorageRecipes;
   }
 
   checkLocalStorageKeyword(): string | null {
-    this.currentLocalStorageKeyword = this.localStorageService.getItem('searchForKeyword');
+    this.currentLocalStorageKeyword = this.localStorageService.getItem(
+      'searchForKeyword'
+    );
     return this.currentLocalStorageKeyword;
   }
 
   checkLocalStorageIngredients(): string | null {
-    this.currentLocalStorageIngredients = this.localStorageService.getItem('searchForIngredients');
+    this.currentLocalStorageIngredients = this.localStorageService.getItem(
+      'searchForIngredients'
+    );
     return this.currentLocalStorageIngredients;
   }
 
   checkLocalStorageScrollPosition(): string | null {
-    this.currentLocalStoragescrollPosition = this.localStorageService.getItem('scrollPosition');
+    this.currentLocalStoragescrollPosition = this.localStorageService.getItem(
+      'scrollPosition'
+    );
     return this.currentLocalStoragescrollPosition;
   }
 
   ngOnInit(): void {
-    if(this.checkLocalStorageRecipes() !== null && this.currentLocalStorageRecipes !== null) {
+    if (
+      this.checkLocalStorageRecipes() !== null &&
+      this.currentLocalStorageRecipes !== null
+    ) {
       this.recipes = JSON.parse(this.currentLocalStorageRecipes);
-      this.page = this.recipes.length/10;
-      if(this.checkLocalStorageKeyword() !== null && this.currentLocalStorageKeyword !== null) {
+      this.page = this.recipes.length / 10;
+      if (
+        this.checkLocalStorageKeyword() !== null &&
+        this.currentLocalStorageKeyword !== null
+      ) {
         this.searchForKeyword = JSON.parse(this.currentLocalStorageKeyword);
       }
-      if(this.checkLocalStorageIngredients() !== null && this.currentLocalStorageIngredients !== null) {
-        this.searchForIngredients = (JSON.parse(this.currentLocalStorageIngredients));
+      if (
+        this.checkLocalStorageIngredients() !== null &&
+        this.currentLocalStorageIngredients !== null
+      ) {
+        this.searchForIngredients = JSON.parse(
+          this.currentLocalStorageIngredients
+        );
       }
-      if(this.checkLocalStorageScrollPosition() !== null && this.currentLocalStoragescrollPosition !== null) {
-        this.scrollPosition = (JSON.parse(this.currentLocalStoragescrollPosition));
-        window.scrollTo(0, Number(this.scrollPosition));
+      if (
+        this.checkLocalStorageScrollPosition() !== null &&
+        this.currentLocalStoragescrollPosition !== null
+      ) {
+        this.scrollPosition = JSON.parse(
+          this.currentLocalStoragescrollPosition
+        );
       }
     } else {
       this.getRecipes();
     }
   }
 
+  scrollToPreviousPosition() {
+    if (this.scrollPosition) {
+      window.scroll({
+        top: this.scrollPosition,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+  }
+
+  ngAfterViewInit() {
+    this.scrollToPreviousPosition();
+  }
 }

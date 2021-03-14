@@ -10,15 +10,10 @@ import { StoreModule } from '@ngrx/store';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RecipesComponent,
-    HomeComponent
-  ],
+  declarations: [AppComponent, RecipesComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,6 +24,6 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

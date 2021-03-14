@@ -1,52 +1,51 @@
 @import "../../../styles.scss";
 
 .home-wrapper {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../../assets/images/chef-background.png");
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+
+  .content-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    z-index: 9;
     width: 100%;
-    height: 100vh;
-    background-image: url("../../../assets/images/chef-background.png");
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
 
-    .content-center {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        text-align: center;
-        z-index: 9;
-        width: 100%;
-
-        .title {
-            font-size: $font-size-xl;
-            color: $recipe-puppy-dark-grey;
-            font-weight: 600;
-        }
-
-        button {
-            padding: 15px 55px;
-            text-align: center;
-            border: solid 2px $recipe-puppy-yellow;
-            font-size: $font-size-m;
-            color: $recipe-puppy-blue;
-            font-weight: 600;
-            margin-top: 50px;
-          }
-          
-          button:hover {
-            background-color: $recipe-puppy-yellow;
-            color: $recipe-puppy-white;
-            transition: all 0.2s ease-in;
-          }
-
+    .title {
+      font-size: $font-size-xl;
+      color: $recipe-puppy-dark-grey;
+      font-weight: 600;
     }
 
-    .light-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255,255,255,0.5);
+    button {
+      padding: 15px 55px;
+      text-align: center;
+      border: solid 2px $recipe-puppy-yellow;
+      font-size: $font-size-m;
+      color: $recipe-puppy-blue;
+      font-weight: 600;
+      margin-top: 50px;
     }
+
+    button:hover {
+      background-color: $recipe-puppy-yellow;
+      color: $recipe-puppy-white;
+      transition: all 0.2s ease-in;
+    }
+  }
+
+  .light-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 }
